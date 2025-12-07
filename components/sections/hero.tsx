@@ -41,6 +41,14 @@ const gridImages = [
 	},
 ];
 
+const heroDescription = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita aut veritatis odit temporibus veniam doloremque unde molestias pariatur.";
+
+const heroFeatures = [
+	"Lorem.",
+	"Lorem ipsum.",
+	"Lorem ipsum dolor.",
+];
+
 export default function HeroSection() {
 	gsap.registerPlugin(CustomEase, Flip, SplitText, useGSAP);
 
@@ -177,57 +185,25 @@ export default function HeroSection() {
 
 			<div className="col-span-4 col-start-10 row-start-1 -col-end-1 row-end-2 h-full flex flex-col justify-between gap-4">
 				<div className="flex flex-col gap-4">
-					<div className="flex flex-col items-end">
-						<p className="text-2xl font-bold text-end">Lorem ipsum. 01</p>
-						<svg
-							width="100%"
-							height="1"
-							viewBox="0 0 1048 1"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
-						</svg>
-					</div>
-					<div className="flex flex-col items-end">
-						<p className="text-2xl font-bold text-end">Lorem ipsum. 02</p>
-						<svg
-							width="100%"
-							height="1"
-							viewBox="0 0 1048 1"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
-						</svg>
-					</div>
-					<div className="flex flex-col items-end">
-						<p className="text-2xl font-bold text-end">Lorem ipsum. 03</p>
-						<svg
-							width="100%"
-							height="1"
-							viewBox="0 0 1048 1"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
-						</svg>
-					</div>
-					<div className="flex flex-col items-end">
-						<p className="text-2xl font-bold text-end">Lorem ipsum. 04</p>
-						<svg
-							width="100%"
-							height="1"
-							viewBox="0 0 1048 1"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
-						</svg>
-					</div>
+					{
+						heroFeatures.map((feature, index) => (
+							<div className="flex flex-col items-end" key={index}>
+								<p className="text-2xl font-bold text-end">{feature + " 0" + (index + 1)}</p>
+								<svg
+									width="100%"
+									height="1"
+									viewBox="0 0 1048 1"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
+								</svg>
+							</div>
+						))
+					}
 				</div>
 				<p className="text-lg font-bold lg:text-justify mix-blend-difference">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita aut veritatis odit temporibus veniam doloremque unde molestias pariatur.
+					{heroDescription}
 				</p>
 			</div>
 		</section>
