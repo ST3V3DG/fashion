@@ -226,10 +226,8 @@ export default function HeroSection() {
 						</svg>
 					</div>
 				</div>
-				<p className="text-lg font-bold lg:text-end mix-blend-difference">
-					Lorem ipsum dolor <br />
-					sit amet consectetur adipisicing <br />
-					elit. Expedita aut veritatis odit temporibus veniam doloremque unde molestias pariatur.
+				<p className="text-lg font-bold lg:text-justify mix-blend-difference">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita aut veritatis odit temporibus veniam doloremque unde molestias pariatur.
 				</p>
 			</div>
 		</section>
