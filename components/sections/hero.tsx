@@ -1,16 +1,16 @@
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: <explanation> */
-/** biome-ignore-all lint/a11y/useKeyWithClickEvents: <explanation> */
+/** biome-ignore-all lint/a11y/noStaticElementInteractions: Allow click events on images grid elements to swap main image */
+/** biome-ignore-all lint/a11y/useKeyWithClickEvents: Allow key events on images grid elements to swap main image */
 
 "use client";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import CustomEase from "gsap/CustomEase";
 import { Flip } from "gsap/Flip";
 import SplitText from "gsap/SplitText";
 import Image from "next/image";
 import { useContext, useRef } from "react";
 import { PagePreloaderContext } from "../page-preloader";
-import CustomEase from "gsap/CustomEase";
 
 const mainImage = {
 	alt: "",
@@ -122,117 +122,115 @@ export default function HeroSection() {
 		});
 	});
 	return (
-		<>
-			<section
-				id="hero"
-				className="flex flex-col lg:grid min-h-[calc(100dvh-5rem)] grid-cols-12 grid-rows-1 gap-4 p-6"
+		<section
+			id="hero"
+			className="flex flex-col lg:grid min-h-[calc(100dvh-5rem)] grid-cols-12 grid-rows-1 gap-4 p-6"
+		>
+			<div
+				ref={containerRef}
+				className="h-full flex flex-col justify-between row-start-1 row-end-2 col-start-1 col-end-12 lg:col-end-4"
 			>
+				<h1 className="text-7xl font-bold mix-blend-difference">World Wide Fashion Studio</h1>
 				<div
-					ref={containerRef}
-					className="col-span-4 h-full flex flex-col justify-between row-start-1 row-end-2 col-start-1 col-end-4"
+					id="images-grid"
+					className="hidden lg:grid grid-cols-3 gap-2 w-2/3 *:cursor-pointer"
+					onClick={switchMainImageBox}
 				>
-					<h1 className="text-7xl font-bold mix-blend-difference">World Wide Fashion Studio</h1>
-					<div
-						id="images-grid"
-						className="hidden lg:grid grid-cols-3 gap-2 w-2/3 *:cursor-pointer"
-						onClick={switchMainImageBox}
-					>
-						{gridImages.map((image, index) => (
-							<div key={index}>
-								<div className="overflow-hidden size-full">
-									<Image
-										alt={image.alt}
-										className="object-cover size-full pointer-events-none"
-										height={1500}
-										src={image.src}
-										width={1500}
-									/>
-								</div>
+					{gridImages.map((image, index) => (
+						<div key={index}>
+							<div className="overflow-hidden size-full">
+								<Image
+									alt={image.alt}
+									className="object-cover size-full pointer-events-none"
+									height={1500}
+									src={image.src}
+									width={1500}
+								/>
 							</div>
-						))}
-					</div>
+						</div>
+					))}
 				</div>
+			</div>
 
-				<div
-					id="main-hero-image-box"
-					className="col-span-6 hover:scale-110 hover:rotate-2 transition duration-500 cursor-pointer relative col-start-4 col-end-10 row-start-1 row-end-2 -z-1 align-self-center flex items-center"
-				>
-					<div className="overflow-hidden w-full aspect-video relative">
-						<Image
-							alt={mainImage.alt}
-							className="object-cover size-full pointer-events-none"
-							height={1500}
-							src={mainImage.src}
-							width={1500}
-						/>
-						<Image
-							alt={mainImage.alt}
-							className="object-cover size-full absolute top-0 left-0"
-							height={5000}
-							src={mainImage.src}
-							width={5000}
-						/>
-					</div>
+			<div
+				id="main-hero-image-box"
+				className="col-span-6 hover:scale-110 hover:rotate-2 transition duration-500 cursor-pointer relative col-start-4 col-end-10 row-start-1 row-end-2 -z-1 align-self-center flex items-center"
+			>
+				<div className="overflow-hidden w-full aspect-video relative">
+					<Image
+						alt={mainImage.alt}
+						className="object-cover size-full pointer-events-none"
+						height={1500}
+						src={mainImage.src}
+						width={1500}
+					/>
+					<Image
+						alt={mainImage.alt}
+						className="object-cover size-full absolute top-0 left-0"
+						height={5000}
+						src={mainImage.src}
+						width={5000}
+					/>
 				</div>
+			</div>
 
-				<div className="col-span-4 col-start-10 row-start-1 -col-end-1 row-end-2 h-full flex flex-col justify-between gap-4">
-					<div className="flex flex-col gap-4">
-						<div className="flex flex-col items-end">
-							<p className="text-2xl font-bold text-end">Lorem ipsum. 01</p>
-							<svg
-								width="95%"
-								height="1"
-								viewBox="0 0 1048 1"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
-							</svg>
-						</div>
-						<div className="flex flex-col items-end">
-							<p className="text-2xl font-bold text-end">Lorem ipsum. 02</p>
-							<svg
-								width="95%"
-								height="1"
-								viewBox="0 0 1048 1"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
-							</svg>
-						</div>
-						<div className="flex flex-col items-end">
-							<p className="text-2xl font-bold text-end">Lorem ipsum. 03</p>
-							<svg
-								width="95%"
-								height="1"
-								viewBox="0 0 1048 1"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
-							</svg>
-						</div>
-						<div className="flex flex-col items-end">
-							<p className="text-2xl font-bold text-end">Lorem ipsum. 04</p>
-							<svg
-								width="95%"
-								height="1"
-								viewBox="0 0 1048 1"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
-							</svg>
-						</div>
+			<div className="col-span-4 col-start-10 row-start-1 -col-end-1 row-end-2 h-full flex flex-col justify-between gap-4">
+				<div className="flex flex-col gap-4">
+					<div className="flex flex-col items-end">
+						<p className="text-2xl font-bold text-end">Lorem ipsum. 01</p>
+						<svg
+							width="100%"
+							height="1"
+							viewBox="0 0 1048 1"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
+						</svg>
 					</div>
-					<p className="text-lg font-bold lg:text-end mix-blend-difference">
-						Lorem ipsum dolor <br />
-						sit amet consectetur adipisicing <br />
-						elit. Expedita aut veritatis odit temporibus veniam doloremque unde molestias pariatur.
-					</p>
+					<div className="flex flex-col items-end">
+						<p className="text-2xl font-bold text-end">Lorem ipsum. 02</p>
+						<svg
+							width="100%"
+							height="1"
+							viewBox="0 0 1048 1"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
+						</svg>
+					</div>
+					<div className="flex flex-col items-end">
+						<p className="text-2xl font-bold text-end">Lorem ipsum. 03</p>
+						<svg
+							width="100%"
+							height="1"
+							viewBox="0 0 1048 1"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
+						</svg>
+					</div>
+					<div className="flex flex-col items-end">
+						<p className="text-2xl font-bold text-end">Lorem ipsum. 04</p>
+						<svg
+							width="100%"
+							height="1"
+							viewBox="0 0 1048 1"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
+						</svg>
+					</div>
 				</div>
-			</section>
-		</>
+				<p className="text-lg font-bold lg:text-end mix-blend-difference">
+					Lorem ipsum dolor <br />
+					sit amet consectetur adipisicing <br />
+					elit. Expedita aut veritatis odit temporibus veniam doloremque unde molestias pariatur.
+				</p>
+			</div>
+		</section>
 	);
 }
