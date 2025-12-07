@@ -66,7 +66,8 @@ export default function HeroSection() {
 			tl?.fromTo(
 				"#main-hero-image-box > div > img:last-child",
 				{
-					scale: 3,
+					delay: 0.05,
+					scale: 5,
 				},
 				{
 					delay: 0.3,
