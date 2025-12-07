@@ -167,30 +167,23 @@
 		writing-mode: vertical-lr;
 	}
 
-	@media screen and (min-width: 768px) {
-		/* width */
-		::-webkit-scrollbar {
-			width: 8px;
-		}
+	::-webkit-scrollbar {
+		width: 8px;
+	}
+	
+	::-webkit-scrollbar-track {
+		background: var(--background);
+	}
 
-		/* Track */
-		::-webkit-scrollbar-track {
-			background: var(--background);
-		}
+	::-webkit-scrollbar-thumb {
+		background: var(--foreground);
+	}
 
-		/* Handle */
-		::-webkit-scrollbar-thumb {
-			background: var(--foreground);
-		}
+	::-webkit-scrollbar-thumb:hover {
+		cursor: grab;
+	}
 
-		/* Handle on hover */
-		::-webkit-scrollbar-thumb:hover {
-			cursor: grab;
-		}
-
-		/* Handle on active */
-		::-webkit-scrollbar-thumb:active {
-			cursor: grabbing;
-		}
+	::-webkit-scrollbar-thumb:active {
+		cursor: grabbing;
 	}
 }
