@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/style/noNonNullAssertion: Allow non null assertions for refs */
 "use client";
 
 import { useGSAP } from "@gsap/react";
@@ -65,24 +66,23 @@ export default function PagePreloader({ children }: { children: React.ReactNode 
 						ref={(element) => {
 							counterElements.current[0] = element!;
 						}}
-						className="counter text-9xl font-extrabold translate-y-1/2"
+						className="counter text-[16rem] font-extrabold translate-y-1/2"
 					>
 						0%
 					</span>
 					<svg
-						className="absolute left-0 bottom-0 w-full h-8 translate-y-1/2 mix-blend-difference overflow-visible fill-none"
+						className="absolute left-0 bottom-0 w-full h-12 translate-y-1/2 mix-blend-difference overflow-visible fill-none"
 						viewBox="0 0 1048 1"
 						xmlns="http://www.w3.org/2000/svg"
 					>
-						{/* <circle className="fill-foreground" cx="9" cy="2" r="10" /> */}
 						<line
 							ref={(element) => {
 								SVGLineElements.current[0] = element!;
 							}}
-							className="stroke-foreground stroke-4 -translate-x-full"
-							y1="-4"
+							className="stroke-foreground stroke-12 -translate-x-full"
+							y1="-2"
 							x2="1048"
-							y2="-4"
+							y2="-2"
 						/>
 					</svg>
 				</div>
@@ -91,24 +91,23 @@ export default function PagePreloader({ children }: { children: React.ReactNode 
 						ref={(element) => {
 							counterElements.current[1] = element!;
 						}}
-						className="counter text-9xl font-extrabold -translate-y-1/2"
+						className="counter text-[16rem] font-extrabold -translate-y-1/2"
 					>
 						0%
 					</span>
 					<svg
-						className="absolute left-0 top-0 w-full h-8 -translate-y-1/2 mix-blend-difference overflow-visible fill-none"
+						className="absolute left-0 top-0 w-full h-12 -translate-y-1/2 mix-blend-difference overflow-visible fill-none"
 						viewBox="0 0 1048 1"
 						xmlns="http://www.w3.org/2000/svg"
 					>
-						{/* <circle className="fill-foreground" cx="9" cy="2" r="10" /> */}
 						<line
 							ref={(element) => {
 								SVGLineElements.current[1] = element!;
 							}}
-							className="stroke-foreground stroke-4 -translate-x-full"
-							y1="4"
+							className="stroke-foreground stroke-12 -translate-x-full"
+							y1="2"
 							x2="1048"
-							y2="4"
+							y2="2"
 						/>
 					</svg>
 				</div>
