@@ -36,7 +36,7 @@ export default function Header() {
 			<nav className="hidden md:block">
 				<ul className="flex *:p-2">
 					{headerLinks.map((link, index) => (
-						<li key={index}>
+						<li className="relative before:absolute before:bottom-1.5 before:left-0 before:h-1 before:bg-foreground/50 before:w-full before:scale-x-0 hover:before:scale-x-90 before:content-[''] before:transition before:duration-300" key={index}>
 							<Link href={link.href}>{link.title}</Link>
 						</li>
 					))}
