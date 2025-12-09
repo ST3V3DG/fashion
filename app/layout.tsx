@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import 'lenis/dist/lenis.css'
 import "./globals.css";
+import SmoothScroll from "@/providers/smooth-scroll";
 
 export const metadata: Metadata = {
 	title: "Fashion",
@@ -13,7 +15,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<html className="dark" lang="en">
-			<body className={`overflow-x-hidden antialiased`}>{children}</body>
+			<SmoothScroll>
+				<body className={`antialiased`}>
+					{children}
+				</body>
+			</SmoothScroll>
 		</html>
 	);
 }

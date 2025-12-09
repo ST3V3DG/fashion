@@ -1,21 +1,29 @@
 /** biome-ignore-all lint/a11y/noStaticElementInteractions: Allow click events on images grid elements to swap main image */
 /** biome-ignore-all lint/a11y/useKeyWithClickEvents: Allow key events on images grid elements to swap main image */
+/** biome-ignore-all lint/suspicious/noExplicitAny: No type */
 
 "use client";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import CustomEase from "gsap/CustomEase";
-import { Flip } from "gsap/Flip";
+import Flip from "gsap/Flip";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import SplitText from "gsap/SplitText";
 import Image from "next/image";
 import { useContext, useRef } from "react";
-import { PagePreloaderContext } from "../page-preloader";
+import { PagePreloaderContext } from "@/providers/page-preloader";
 
-const mainImage = {
-	alt: "",
-	src: "https://img.freepik.com/free-photo/beautiful-african-woman-monochrome-portrait_23-2151436252.jpg",
-};
+const mainImages = [
+	{
+		alt: "",
+		src: "https://img.freepik.com/free-photo/beautiful-african-woman-monochrome-portrait_23-2151436252.jpg",
+	},
+	{
+		alt: "",
+		src: "https://img.freepik.com/free-photo/portrait-beautiful-caucasian-sunbathed-woman-model-with-dark-long-hair-striped-swimsuit-lying-summer-beach-with-white-sand_158538-13374.jpg",
+	},
+];
 
 const gridImages = [
 	{ alt: "", src: "https://img.freepik.com/free-photo/medium-shot-man-with-braids-portrait_23-2151428185.jpg" },
@@ -50,7 +58,7 @@ const heroFeatures = [
 ];
 
 export default function HeroSection() {
-	gsap.registerPlugin(CustomEase, Flip, SplitText, useGSAP);
+	gsap.registerPlugin(CustomEase, Flip, SplitText, ScrollTrigger, useGSAP);
 
 	const containerRef = useRef<HTMLDivElement>(null);
 	const flip = useRef<gsap.core.Timeline>(null);
@@ -72,7 +80,7 @@ export default function HeroSection() {
 			});
 
 			tl?.fromTo(
-				"#main-hero-image-box > div > img:last-child",
+				"#main-hero-image-box > div > div > img:last-child",
 				{
 					delay: 0.05,
 					scale: 5,
@@ -80,43 +88,61 @@ export default function HeroSection() {
 				{
 					delay: 0.3,
 					scale: 1,
-					ease: CustomEase.create("custom", "M0,0 C0.286,0.008 0.412,1 1,1"),
+					ease: "power1.in",
 					display: "none",
 					onComplete: () => {
-						document.querySelector("#main-hero-image-box > div > img:last-child")?.remove();
+						document.querySelector("#main-hero-image-box > div > div > img:last-child")?.remove();
 					},
 				},
 			)
 				.from(
 					splitHeader.lines,
 					{
-						delay: 0.5,
 						yPercent: 100,
 						opacity: 0,
 						duration: 1,
 						ease: "power4.inOut",
 						stagger: 0.1,
 					},
-					"-=0.5",
 				)
-				.from("#hero p", {
+				.from("#hero > div > div:nth-child(3) p", {
 					xPercent: 150,
-					duration: 1,
+					duration: 1.2,
+					stagger: 0.1,
 					autoAlpha: 0,
 					ease: "power4.out",
+				}, "-=0.5")
+				.to("#main-hero-image-box > div > div > div", {
+					yPercent: -100 / document.querySelectorAll("#main-hero-image-box > div > div").length,
+					immediateRender: false,
+					scrollTrigger: {
+						trigger: "#hero",
+						start: "top 73px",
+						end: "bottom bottom",
+						toggleActions: "play complete reverse reverse",
+						pin: "#main-hero-image-box",
+						pinSpacing: false,
+						pinReparent: true,
+						scrub: true,
+						// invalidateOnRefresh: true,
+						// markers: true,
+					},
+					// onComplete: () => {
+					// 	document.querySelector("body")?.classList.add("overflow-y-auto");
+					// },
 				});
 		},
 		{ dependencies: [tl] },
 	);
 
-	const { contextSafe } = useGSAP({ scope: containerRef });
+	const { contextSafe } = useGSAP({ scope: containerRef, revertOnUpdate: true });
 
 	const switchMainImageBox = contextSafe((event: React.MouseEvent<HTMLDivElement>) => {
 		const target = event.currentTarget.querySelector("#images-grid > div:hover > div > img");
 
 		if (!target) return;
 
-		const mainImage = document.querySelector("#main-hero-image-box > div > img:first-child");
+		const mainImage = document.querySelector("#main-hero-image-box > div > div > div:first-child > img");
 
 		if (!mainImage) return;
 
@@ -131,80 +157,189 @@ export default function HeroSection() {
 		});
 	});
 	return (
-		<section
-			id="hero"
-			className="flex flex-col lg:grid min-h-[calc(100dvh-5rem)] grid-cols-12 grid-rows-1 gap-4 p-6"
-		>
+		<section id="hero">
 			<div
-				ref={containerRef}
-				className="h-full flex flex-col justify-between row-start-1 row-end-2 col-start-1 col-end-12 lg:col-end-4"
+				className="flex flex-col lg:grid col-span-12 grid-cols-12 gap-4 *:min-h-[calc(100dvh-7rem)] p-6"
 			>
-				<h1 className="text-7xl font-bold mix-blend-difference">World Wide Fashion Studio</h1>
-				<div
-					id="images-grid"
-					className="hidden lg:grid grid-cols-3 gap-2 w-2/3 *:cursor-pointer"
-					onClick={switchMainImageBox}
-				>
-					{gridImages.map((image, index) => (
-						<div key={index}>
-							<div className="overflow-hidden size-full">
-								<Image
-									alt={image.alt}
-									className="object-cover size-full pointer-events-none"
-									height={1500}
-									src={image.src}
-									width={1500}
-								/>
+				{/* <div className=""> */}
+					<div
+						ref={containerRef}
+						className="h-full flex flex-col justify-between row-start-1 row-end-2 col-start-1 col-end-12 lg:col-end-5"
+					>
+						<h1 className="text-7xl font-bold mix-blend-difference">World Wide Fashion Studio</h1>
+						<div
+							id="images-grid"
+							className="hidden lg:grid grid-cols-3 gap-2 w-2/3 *:cursor-pointer"
+							onClick={switchMainImageBox}
+						>
+							{gridImages.map((image, index) => (
+								<div key={index}>
+									<div className="overflow-hidden size-full">
+										<Image
+											alt={image.alt}
+											className="object-cover size-full pointer-events-none"
+											height={1500}
+											src={image.src}
+											width={1500}
+										/>
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+		
+					{/* <div className="flex items-center bg-red-950 relative"> */}
+						<div id="main-hero-image-box" className="hover:scale-110 hover:rotate-2 transition duration-500 cursor-pointer w-full col-start-4 col-end-10 -z-1 overflow-hidden row-start-1 row-end-2">
+						<div className="size-full flex items-center overflow-hidden">
+								<div className="overflow-hidden aspect-video w-full relative">
+									{
+										mainImages.map((image, index) => (
+											<div className="size-full overflow-hidden aspect-video" key={index}>
+												<Image
+													alt={image.alt}
+													className="object-cover size-full pointer-events-none"
+													height={1500}
+													src={image.src}
+													width={1500}
+												/>
+											</div>
+										))
+									}
+									<Image
+										alt={mainImages[0].alt}
+										className="object-cover w-full absolute top-0 left-0 aspect-video"
+										height={5000}
+										src={mainImages[0].src}
+										width={5000}
+									/>
+								</div>
 							</div>
 						</div>
-					))}
-				</div>
-			</div>
+					{/* </div> */}
+		
+					<div className="col-span-4 col-start-10 row-start-1 row-end-2 -col-end-1 h-full flex flex-col justify-between gap-4">
+						<div className="flex flex-col gap-4">
+							{
+								heroFeatures.map((feature, index) => (
+									<div className="flex flex-col items-end" key={index}>
+										<p className="flex items-center gap-1 text-2xl font-bold text-end mix-blend-difference"><span className="text-foreground/50 text-nowrap">{feature}</span> <span className="text-foreground/50">0{index + 1}</span></p>
+										<svg
+											width="100%"
+											height="1"
+											viewBox="0 0 1048 1"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
+										</svg>
+									</div>
+								))
+							}
+						</div>
+						<p className="text-lg font-bold lg:text-justify mix-blend-difference">
+							{heroDescription}
+						</p>
+					</div>
 
-			<div
-				id="main-hero-image-box"
-				className="col-span-6 hover:scale-110 hover:rotate-2 transition duration-500 cursor-pointer relative col-start-4 col-end-10 row-start-1 row-end-2 -z-1 align-self-center flex items-center"
-			>
-				<div className="overflow-hidden w-full aspect-video relative">
-					<Image
-						alt={mainImage.alt}
-						className="object-cover size-full pointer-events-none"
-						height={1500}
-						src={mainImage.src}
-						width={1500}
-					/>
-					<Image
-						alt={mainImage.alt}
-						className="object-cover size-full absolute top-0 left-0"
-						height={5000}
-						src={mainImage.src}
-						width={5000}
-					/>
-				</div>
-			</div>
+					<div
+						className="h-full flex flex-col justify-between row-start-2 row-end-3 col-start-1 col-end-12 lg:col-end-5"
+					>
+						<h1 className="text-7xl font-bold mix-blend-difference">World Wide Fashion Studio</h1>
+						<div
+							id="images-grid"
+							className="hidden lg:grid grid-cols-3 gap-2 w-2/3 *:cursor-pointer"
+							onClick={switchMainImageBox}
+						>
+							{gridImages.map((image, index) => (
+								<div key={index}>
+									<div className="overflow-hidden size-full">
+										<Image
+											alt={image.alt}
+											className="object-cover size-full pointer-events-none"
+											height={1500}
+											src={image.src}
+											width={1500}
+										/>
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
 
-			<div className="col-span-4 col-start-10 row-start-1 -col-end-1 row-end-2 h-full flex flex-col justify-between gap-4">
-				<div className="flex flex-col gap-4">
-					{
-						heroFeatures.map((feature, index) => (
-							<div className="flex flex-col items-end" key={index}>
-								<p className="text-2xl font-bold text-end">{feature + " 0" + (index + 1)}</p>
-								<svg
-									width="100%"
-									height="1"
-									viewBox="0 0 1048 1"
-									fill="none"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
-								</svg>
-							</div>
-						))
-					}
-				</div>
-				<p className="text-lg font-bold lg:text-justify mix-blend-difference">
-					{heroDescription}
-				</p>
+					<div className="col-span-4 col-start-10 row-start-2 row-end-3 -col-end-1 h-full flex flex-col justify-between gap-4">
+						<div className="flex flex-col gap-4">
+							{
+								heroFeatures.map((feature, index) => (
+									<div className="flex flex-col items-end" key={index}>
+										<p className="flex items-center gap-1 text-2xl font-bold text-end mix-blend-difference"><span className="text-foreground/50 text-nowrap">{feature}</span> <span className="text-foreground/50">0{index + 1}</span></p>
+										<svg
+											width="100%"
+											height="1"
+											viewBox="0 0 1048 1"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
+										</svg>
+									</div>
+								))
+							}
+						</div>
+						<p className="text-lg font-bold lg:text-justify mix-blend-difference">
+							{heroDescription}
+						</p>
+					</div>
+				{/* </div> */}
+				{/* <div className="col-span-12 grid grid-cols-12 gap-x-4">
+					<div
+						className="h-full flex flex-col justify-between row-start-1 row-end-2 col-start-1 col-end-12 lg:col-end-5"
+					>
+						<h1 className="text-7xl font-bold mix-blend-difference">World Wide Fashion Studio</h1>
+						<div
+							id="images-grid"
+							className="hidden lg:grid grid-cols-3 gap-2 w-2/3 *:cursor-pointer"
+							onClick={switchMainImageBox}
+						>
+							{gridImages.map((image, index) => (
+								<div key={index}>
+									<div className="overflow-hidden size-full">
+										<Image
+											alt={image.alt}
+											className="object-cover size-full pointer-events-none"
+											height={1500}
+											src={image.src}
+											width={1500}
+										/>
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+
+					<div className="col-span-4 col-start-10 row-start-1 row-end-2 -col-end-1 h-full flex flex-col justify-between gap-4">
+						<div className="flex flex-col gap-4">
+							{
+								heroFeatures.map((feature, index) => (
+									<div className="flex flex-col items-end" key={index}>
+										<p className="flex items-center gap-1 text-2xl font-bold text-end mix-blend-difference"><span className="text-foreground/50 text-nowrap">{feature}</span> <span className="text-foreground/50">0{index + 1}</span></p>
+										<svg
+											width="100%"
+											height="1"
+											viewBox="0 0 1048 1"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<line y1="0.5" x2="1048" y2="0.5" stroke="white" />
+										</svg>
+									</div>
+								))
+							}
+						</div>
+						<p className="text-lg font-bold lg:text-justify mix-blend-difference">
+							{heroDescription}
+						</p>
+					</div>
+				</div> */}
 			</div>
 		</section>
 	);

@@ -34,19 +34,19 @@ export default function PagePreloader({ children }: { children: React.ReactNode 
 			}
 			updateCounter();
 		}
-		setTimeout(startLoader, 1000);
+		startLoader();
 	}, []);
 
 	useGSAP(() => {
 		const tl = gsap.timeline();
 
 		tl.to(SVGLineElements.current, {
-			delay: 4.5,
-			duration: 1,
-			xPercent: 100,
-			ease: "power3.inOut",
+			delay: 4,
+			duration: 1.5,
+			xPercent: 110,
+			ease: "power4.in",
 		}).to("#preloader > div", {
-			delay: 0.1,
+			delay: 0.5,
 			duration: 1,
 			yPercent: gsap.utils.wrap([-100, 100]),
 			ease: "power3.inOut",
@@ -71,7 +71,7 @@ export default function PagePreloader({ children }: { children: React.ReactNode 
 						0%
 					</span>
 					<svg
-						className="absolute left-0 bottom-0 w-full h-12 translate-y-1/2 mix-blend-difference overflow-visible fill-none"
+						className="absolute left-0 bottom-0 w-[110%] h-16 translate-y-1/2 mix-blend-difference overflow-visible fill-none"
 						viewBox="0 0 1048 1"
 						xmlns="http://www.w3.org/2000/svg"
 					>
@@ -79,7 +79,7 @@ export default function PagePreloader({ children }: { children: React.ReactNode 
 							ref={(element) => {
 								SVGLineElements.current[0] = element!;
 							}}
-							className="stroke-foreground stroke-12 -translate-x-full"
+							className="stroke-foreground stroke-16 -translate-x-[110%]"
 							y1="-2"
 							x2="1048"
 							y2="-2"
@@ -96,7 +96,7 @@ export default function PagePreloader({ children }: { children: React.ReactNode 
 						0%
 					</span>
 					<svg
-						className="absolute left-0 top-0 w-full h-12 -translate-y-1/2 mix-blend-difference overflow-visible fill-none"
+						className="absolute left-0 top-0 w-[110%] h-16 -translate-y-1/2 mix-blend-difference overflow-visible fill-none"
 						viewBox="0 0 1048 1"
 						xmlns="http://www.w3.org/2000/svg"
 					>
@@ -104,7 +104,7 @@ export default function PagePreloader({ children }: { children: React.ReactNode 
 							ref={(element) => {
 								SVGLineElements.current[1] = element!;
 							}}
-							className="stroke-foreground stroke-12 -translate-x-full"
+							className="stroke-foreground stroke-16 -translate-x-[110%]"
 							y1="2"
 							x2="1048"
 							y2="2"
