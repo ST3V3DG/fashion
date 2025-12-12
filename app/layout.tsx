@@ -14,7 +14,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html className="dark" lang="en">
+		<html className="dark" lang="en" suppressHydrationWarning>
 			<SmoothScroll>
 				<body className={`antialiased`}>
 					{children}

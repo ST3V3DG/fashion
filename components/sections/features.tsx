@@ -27,11 +27,11 @@ export default function FeaturesSection() {
 				<h2 className="text-7xl font-bold">Features</h2>
 				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
 			</div>
-			<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-4 max-md:[&>div:nth-child(even)>div:first-child]:order-2 max-md:[&>div:nth-child(odd)>div:first-child]:scale-[-1] max-md:[&>div:nth-child(odd)>div:last-child>p]:text-end max-md:[&>div:nth-child(odd)>div:last-child>a]:ml-auto max-md:[&>div:nth-child(even)>div:last-child]:order-1">
+			<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-4 max-md:[&>div:nth-child(even)>div:first-child]:order-2 max-md:[&>div:nth-child(odd)>div:first-child]:scale-[-1] max-md:[&>div:nth-child(odd)>div:last-child>p]:text-end max-md:[&>div:nth-child(odd)>div:last-child>a]:ml-auto max-md:[&>div:nth-child(even)>div:last-child]:order-1 max-md:[&>div>div:nth-child(1)]:border-l">
 				{features.map((feature, index) => (
 					<div className="grid grid-cols-3 gap-2" key={index}>
-						<div className="overflow-hidden">
-							<h3 className="text-8xl font-bold text-foreground/50 writing-mode-vertical-lr md:scale-[-1] border-l">
+						<div className="overflow-hidden md:border-r">
+							<h3 className="text-8xl font-bold text-foreground/50 writing-mode-vertical-lr md:scale-[-1]">
 								{feature.title}
 							</h3>
 						</div>

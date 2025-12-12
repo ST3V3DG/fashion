@@ -66,7 +66,7 @@ export default function PagePreloader({ children }: { children: React.ReactNode 
 						ref={(element) => {
 							counterElements.current[0] = element!;
 						}}
-						className="counter text-[16rem] font-extrabold translate-y-1/2"
+						className="counter text-[min(30vw,16rem)] font-extrabold translate-y-1/2"
 					>
 						0%
 					</span>
@@ -91,7 +91,7 @@ export default function PagePreloader({ children }: { children: React.ReactNode 
 						ref={(element) => {
 							counterElements.current[1] = element!;
 						}}
-						className="counter text-[16rem] font-extrabold -translate-y-1/2"
+						className="counter text-[min(30vw,16rem)] font-extrabold -translate-y-1/2"
 					>
 						0%
 					</span>
