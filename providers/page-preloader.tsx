@@ -3,7 +3,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { createContext, useEffect, useRef, useState } from "react";
+import { createContext, useRef, useState } from "react";
 
 export const PagePreloaderContext = createContext<gsap.core.Timeline | undefined>(undefined);
 
@@ -11,37 +11,23 @@ export default function PagePreloader({ children }: { children: React.ReactNode 
 	const [tl, setTl] = useState<gsap.core.Timeline>();
 	const counterElements = useRef<HTMLSpanElement[]>([]);
 	const SVGLineElements = useRef<SVGLineElement[]>([]);
+	const counterValue = { value: 0 };
 
 	gsap.registerPlugin(useGSAP);
-
-	useEffect(() => {
-		function startLoader() {
-			let currentValue = 0;
-			function updateCounter() {
-				if (currentValue === 100) return;
-
-				currentValue += Math.floor(Math.random() * 10) + 1;
-
-				if (currentValue > 100) {
-					currentValue = 100;
-				}
-
-				counterElements.current?.forEach((element) => {
-					element.textContent = `${currentValue}%`;
-				});
-
-				setTimeout(updateCounter, Math.floor(Math.random() * 200) + 50);
-			}
-			updateCounter();
-		}
-		startLoader();
-	}, []);
 
 	useGSAP(() => {
 		const tl = gsap.timeline();
 
-		tl.to(SVGLineElements.current, {
-			delay: 4,
+		tl.to(counterValue, {
+			value: 100,
+			duration: 10,
+			ease: "sine.inOut",
+			onUpdate: () => {
+				counterElements.current.forEach((element) => {
+					element.textContent = `${Math.floor(counterValue.value)}%`;
+				});
+			},
+		}).to(SVGLineElements.current, {
 			duration: 1.5,
 			xPercent: 110,
 			ease: "power4.in",
