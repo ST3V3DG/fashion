@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import 'lenis/dist/lenis.css'
 import "./globals.css";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import SmoothScroll from "@/providers/smooth-scroll";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
 			<SmoothScroll>
 				<body className={`antialiased`}>
 					{children}
+					<SpeedInsights />
 				</body>
 			</SmoothScroll>
 		</html>

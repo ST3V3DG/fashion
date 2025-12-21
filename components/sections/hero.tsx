@@ -84,23 +84,23 @@ export default function HeroSection() {
 				paused: true,
 			});
 
-			scrollTl.to("#main-hero-image-box > div > div > div", {
-				yPercent: -100 / document.querySelectorAll("#main-hero-image-box > div > div").length,
-				// scrollTrigger: {
-				// 	trigger: "#hero",
-				// 	start: "top 73px",
-				// 	end: "bottom bottom",
-				// 	pin: "#main-hero-image-box",
-				// 	pinSpacing: false,
-				// 	pinReparent: true,
-				// 	scrub: true,
-				// 	invalidateOnRefresh: true,
-				// 	markers: true,
-				// },
-				// onComplete: () => {
-				// 	document.querySelector("body")?.classList.add("overflow-y-auto");
-				// },
-			});
+			// scrollTl.to("#main-hero-image-box > div > div > div", {
+			// 	yPercent: -100 / document.querySelectorAll("#main-hero-image-box > div > div").length,
+			// 	// scrollTrigger: {
+			// 	// 	trigger: "#hero",
+			// 	// 	start: "top 73px",
+			// 	// 	end: "bottom bottom",
+			// 	// 	pin: "#main-hero-image-box",
+			// 	// 	pinSpacing: false,
+			// 	// 	pinReparent: true,
+			// 	// 	scrub: true,
+			// 	// 	invalidateOnRefresh: true,
+			// 	// 	markers: true,
+			// 	// },
+			// 	// onComplete: () => {
+			// 	// 	document.querySelector("body")?.classList.add("overflow-y-auto");
+			// 	// },
+			// });
 
 			tl?.fromTo(
 				"#main-hero-image-box > div > div > img:last-child",
@@ -134,8 +134,23 @@ export default function HeroSection() {
 					stagger: 0.1,
 					autoAlpha: 0,
 					ease: "power4.out",
-				}, "-=0.5")
-				.add(scrollTl.play());
+					onComplete: () => {
+						ScrollTrigger.create({
+							trigger: "#hero",
+							start: "top 73px",
+							end: "bottom bottom",
+							animation: gsap.to("#main-hero-image-box > div > div > div", {
+								yPercent: -100 / document.querySelectorAll("#main-hero-image-box > div > div").length,
+							}),
+							pin: "#main-hero-image-box",
+							pinSpacing: false,
+							pinReparent: true,
+							scrub: true,
+							invalidateOnRefresh: true,
+							markers: true,
+						});
+					}
+				}, "-=0.5");
 			// GSDevTools.create({animation: tl});
 		},
 		{ dependencies: [tl] },
